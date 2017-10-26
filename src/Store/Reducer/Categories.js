@@ -1,25 +1,27 @@
 import { List, Map } from 'immutable';
 
+const addToMap = function (category, map) {
+  map = map.set(category.id, {
+    "id": category.id,
+    "name": category.name,
+    "subcategories": List(category.subcategories).flatten(true),
+    "pos": category.pos,
+    "products": category.products
+  });
+
+  for (var i = 0; i < category.subcategories.length; i++) {
+      map = map.merge(
+        addToMap(category.subcategories[i], map)
+      );
+  }
+
+  return map;
+}
 export default (state = Map(), action) => {
   switch (action.type) {
       case 'ADD_CATEGORIES':
         return state.push(action.category);
       case 'REPLACE_CATEGORIES':
-        function addToMap(category, map) {
-            map = map.set(category.id, {
-              "id": category.id,
-              "name": category.name,
-              "subcategories": List(category.subcategories).flatten(true),
-              "pos": category.pos,
-              "products": category.products
-            });
-            for (var i = 0; i < category.subcategories.length; i++) {
-                map = map.merge(
-                  addToMap(category.subcategories[i], map)
-                );
-            }
-            return map;
-        }
         let test = Map();
 
         test = test.set('root', {
