@@ -1,7 +1,7 @@
 import { NavigationActions } from 'react-navigation';
 
 const CreateReducer = (AppNavigator, initialState) => {
-    return (state = initialState, viewed_category_id, action) => {
+    return (state = initialState, action) => {
         switch (action.type) {
             case 'CATEGORIES':
               const params = {rootCategory: action.category};
